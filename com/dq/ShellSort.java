@@ -2,7 +2,9 @@ package com.dq;
 
 public class ShellSort{
 	public int[] sort(int[] data){
-		int step = data.length / 2;
+		int step = 1;
+		while(step < data.length)
+			step = step * 3 + 1;
 //		int count = 0;
 		while(step != 0){
 			for (int i = 1; i < data.length; i ++){
@@ -14,7 +16,7 @@ public class ShellSort{
 				}
 				data[j] = tmp;
 			}
-			step = step / 2;
+			step = step / 3;
 
 //			System.out.println("the " + ++count + " times result(step:" + step + "):");
 //			for (int i = 0; i < data.length; ++ i)
