@@ -45,15 +45,5 @@ public class Test {
 	}
 	
 	public static void main(String[] args) {
-		LearnHashMap<TestNode, Integer> testHash = new LearnHashMap<>();
-		for (int i = 0;i < 25; ++ i) {
-			System.out.println(i + 1);
-			if (i == 8) {
-				System.out.println("cp");
-			}
-			testHash.put(new TestNode(i), 1);
-		}
-		System.out.println(testHash.size());
-		Vector<Integer> vec = new Vector<>();
 	}
 }

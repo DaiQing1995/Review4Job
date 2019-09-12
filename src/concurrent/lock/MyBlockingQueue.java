@@ -1,5 +1,3 @@
-package concurrent.lock;
-
 import java.util.LinkedList;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
@@ -71,7 +69,6 @@ public class MyBlockingQueue<E> {
 		
 		for (int i = 0;i < 10; ++ i) {
 			new Thread(new Runnable() {
-				
 				@Override
 				public void run() {
 					queue.deQueue();

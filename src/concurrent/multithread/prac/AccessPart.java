@@ -2,7 +2,6 @@ package concurrent.multithread.prac;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
 
 public class AccessPart {
 
@@ -11,15 +10,17 @@ public class AccessPart {
 	private static class SubThread implements Runnable {
 		@Override
 		public void run() {
-			synchronized (AccessPart.class) {
-				T++;
+			for (int i = 0; i < 10; ++i) {
+				synchronized (AccessPart.class) {
+					T++;
+				}
 			}
 		}
 	}
 
 	public static void main(String[] args) throws InterruptedException {
 		ExecutorService threadPool = Executors.newFixedThreadPool(50);
-		for (int i = 0; i < 1000_000; ++i)
+		for (int i = 0; i < 100_000; ++i)
 			threadPool.execute(new SubThread());
 		Thread.currentThread().join();
 		System.out.println(T);
