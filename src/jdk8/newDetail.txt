@@ -1,0 +1,2 @@
+1.Base64 has been integreted in java.util.Base64;
+2.Parallel Array
