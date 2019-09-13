@@ -1,6 +1,6 @@
+package trycatch;
 
 public class ReturnFin {
-
 	
 	public static int tryMethodTest() {
 		int a = 1;

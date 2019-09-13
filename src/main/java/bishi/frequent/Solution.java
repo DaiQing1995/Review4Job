@@ -1,4 +1,4 @@
-package bishi;
+package bishi.frequent;
 
 public class Solution {
 

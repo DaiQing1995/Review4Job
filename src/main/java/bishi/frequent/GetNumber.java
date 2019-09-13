@@ -1,4 +1,4 @@
-package bishi;
+package bishi.frequent;
 
 import java.util.ArrayList;
 import java.util.Collections;
