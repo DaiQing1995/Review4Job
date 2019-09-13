@@ -1,4 +1,4 @@
-package com.dq;
+package sortalogrithms;
 
 public class ShellSort{
 	public int[] sort(int[] data){

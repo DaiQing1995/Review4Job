@@ -1,4 +1,4 @@
-package com.dq;
+package sortalogrithms;
 
 public class InsertionSort{
 	public int[] sort(int[] data){

@@ -1,4 +1,4 @@
-package com.dq;
+package sortalogrithms;
 
 import java.util.ArrayList;
 import java.lang.Integer;
