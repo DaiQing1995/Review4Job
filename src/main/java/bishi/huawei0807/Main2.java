@@ -1,4 +1,4 @@
-package huawei;
+package bishi.huawei0807;
 
 import java.util.HashMap;
 import java.util.Map;
