@@ -1,4 +1,4 @@
-package trycatch;
+package exception;
 
 public class ReturnFin {
 	
