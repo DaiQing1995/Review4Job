@@ -1,19 +1,24 @@
 package bishi.zhangmin;
 
 import java.io.FileNotFoundException;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Map;
 import java.util.Scanner;
-import java.util.Set;
 
 /**
- * For MIN
  * @author DaiQing
  */
 public class Solution {
 
+	/**
+	 * 每一个节点next的初始大小
+	 */
+	static final int INITIAL_SIZE = 10;
+
+	/**
+	 * 节点的最大数目
+	 */
+	static final int MAX_NODE_SIZE = 10_000;
+	
+	
 	static int N;
 	static int[] Answer;
 	static int AnswerN;
@@ -32,12 +37,28 @@ public class Solution {
 	 */
 	private static class Node{
 		int val;
-		LinkedList<Integer> next;
+		Integer[] next;
+		int nextSize;
 		
 		public Node(int data) {
 			this.val = data;
-			next = new LinkedList<>();
+			next = new Integer[INITIAL_SIZE];
+			nextSize = 0;
 		}
+		
+		public void addNext(Integer val) {
+			if (nextSize == next.length) {
+				Integer[] newNext = new Integer[next.length * 2];
+				for (int i = 0; i < next.length; ++ i) {
+					newNext[i] = next[i];
+				}
+				newNext[nextSize ++] = val;
+				next = newNext;
+			}else {
+				next[nextSize ++] = val; 
+			}
+		}
+		
 	}
 	
 	public static void main(String[] args) throws FileNotFoundException {
@@ -58,12 +79,16 @@ public class Solution {
 			 * Now, start writing your own code
 			 */
 			//下方是主要的初始化部分
-			id2Node.clear();//先clear Map
+//			id2Node.clear();//先clear Map
+			clearId2Node();
+			
 			for (int i = 1;i <= N; ++ i) {
-				id2Node.put(i, new Node(i));
+//				id2Node.put(i, new Node(i));
+				id2Node[i] = new Node(i);
 			}
 			for (int i = 0;i < relation; ++ i) {
-				id2Node.get(A[i]).next.add(B[i]);
+//				id2Node.get(A[i]).next.add(B[i]);
+				id2Node[A[i]].addNext(B[i]);
 			}
 			AnswerN = 0;
 			Answer = new int[N];
@@ -90,15 +115,28 @@ public class Solution {
 	}
 
 	// 【核心容器】visited表示当前已经访问到的点
-	static Set<Integer> visited = new HashSet<>();
+//	static Set<Integer> visited = new HashSet<>();
+	//修改为下标对应关系
+	static boolean[] visited = new boolean[MAX_NODE_SIZE];
+	
+	
 	// 【核心容器】id2Node即为id->Node的索引，方便快速找到图上任何一个节点
-	static Map<Integer, Node> id2Node = new HashMap<>();
+//	static Map<Integer, Node> id2Node = new HashMap<>();
+	//修改为下标对应关系，这里参考题目说明的最大数目开空间。
+	static Node[] id2Node = new Node[MAX_NODE_SIZE];
+	
+	private static void clearId2Node() {
+		for (int i = 0; i < id2Node.length; ++ i)
+			id2Node[i] = null;
+	}
+	
 	
 	//递归函数
 	private static int dfs(int[] answer, int nodeId, int count) {
 		//【1】返回条件：递归函数必有返回，否则无限递归下去，
 		//返回条件包含【有限的循环】和以下这种与【业务逻辑（访���已访问节点）】的两种情况。
-		if (visited.contains(nodeId)) {
+//		if (  visited.contains(nodeId)) {
+		if (visited[nodeId] == true) {
 			answer[count] = nodeId;//设置答案
 			int k = 0;
 			// 因为找到的结果可能为1 5 2 3 4 2，所以这里要找到向前移动的数目，用k可以找到为2
@@ -110,20 +148,23 @@ public class Solution {
 			return count - k;
 		}
 		//【2】初始：递归每一次进入时设置状态
-		visited.add(nodeId);
+//		visited.add(nodeId);
+		visited[nodeId] = true;
 		answer[count] = nodeId;
 		
 		//【3】深入查找：在当前节点上继续向后搜索
-		Node node = id2Node.get(nodeId);
-		for (int i = 0;i < node.next.size(); ++ i) {
-			int tmpRes = dfs(answer, node.next.get(i), count + 1);
+//		Node node = id2Node.get(nodeId);
+		Node node = id2Node[nodeId];
+		for (int i = 0;i < node.nextSize; ++ i) {
+			int tmpRes = dfs(answer, node.next[i], count + 1);
 			if (tmpRes != 0) //判断是否已经产生返回
 				return tmpRes;
 		}
 		
 		//【4】返回：回退状态
 		answer[count] = 0;
-		visited.remove(nodeId);
+//		visited.remove(nodeId);
+		visited[nodeId] = false;
 		return 0;//0表示未找到环
 	}
 }
